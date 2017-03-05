@@ -214,4 +214,5 @@ class RGSpider1(CrawlSpider):
         pass
 
     def close(self, reason):
+        lostitem_str.close()
         super(RGSpider1, self).close(self, reason)
