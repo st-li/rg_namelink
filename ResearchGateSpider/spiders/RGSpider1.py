@@ -28,11 +28,11 @@ class RGSpider1(CrawlSpider):
         }
         alphabet_list = ["A", "B", "C", "D",
                          "E", "F", "G", "H",
-                         "I", "J", "K", "L", 
-                         "M", "N", "O", "P",
-                         "Q", "R", "S", "T",
-                         "U", "V", "W", "X",
-                         "Y", "Z", "Other"]
+                         "I", "J", "K", "L"]
+                         # "M", "N", "O", "P",
+                         # "Q", "R", "S", "T",
+                         # "U", "V", "W", "X",
+                         # "Y", "Z", "Other"]
         for alphabet in alphabet_list:
             url = "https://www.researchgate.net/directory/profiles/"+alphabet
             yield Request(url, headers=headers, callback=self.parse_profile_directory, dont_filter=True)
@@ -44,7 +44,7 @@ class RGSpider1(CrawlSpider):
 
     def parse_profile_directory(self, response):
         if response.status == 429:
-            lostitem_str = 'first level directory: ' + 'response.url\n'
+            lostitem_str = 'first level directory: ' + response.url + '\n'
             self.lostitem_file.write(lostitem_str)
             self.lostitem_file.close()
             raise CloseSpider(reason=u'被封了，准备切换ip')
@@ -64,7 +64,7 @@ class RGSpider1(CrawlSpider):
 
     def parse_profile_directory2(self, response):
         if response.status == 429:
-            lostitem_str = 'second level directory: ' + 'response.url\n'
+            lostitem_str = 'second level directory: ' + response.url + '\n'
             self.lostitem_file.write(lostitem_str)
             self.lostitem_file.close()
             raise CloseSpider(reason='被封了，准备切换ip')
@@ -83,7 +83,7 @@ class RGSpider1(CrawlSpider):
 
     def parse_profile_directory3(self, response):
         if response.status == 429:
-            lostitem_str = 'third level directory: ' + 'response.url\n'
+            lostitem_str = 'third level directory: ' + response.url + '\n'
             self.lostitem_file.write(lostitem_str)
             self.lostitem_file.close()
             raise CloseSpider(reason='被封了，准备切换ip')
@@ -110,7 +110,7 @@ class RGSpider1(CrawlSpider):
 
     def __init__(self, **kwargs):
         super(RGSpider1, self).__init__(**kwargs)
-        self.lostitem_file = open('1.out', 'a+')
+        self.lostitem_file = open('/data/1.out', 'a+')
         pass
 
     def close(self, reason):
