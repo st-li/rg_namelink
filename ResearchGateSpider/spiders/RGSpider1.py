@@ -46,7 +46,7 @@ class RGSpider1(CrawlSpider):
         if response.status == 429:
             lostitem_str = 'first level directory: ' + 'response.url\n'
             self.lostitem_file.write(lostitem_str)
-            lostitem_str.close()
+            self.lostitem_file.close()
             raise CloseSpider(reason=u'被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
@@ -66,7 +66,7 @@ class RGSpider1(CrawlSpider):
         if response.status == 429:
             lostitem_str = 'second level directory: ' + 'response.url\n'
             self.lostitem_file.write(lostitem_str)
-            lostitem_str.close()
+            self.lostitem_file.close()
             raise CloseSpider(reason='被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
@@ -85,7 +85,7 @@ class RGSpider1(CrawlSpider):
         if response.status == 429:
             lostitem_str = 'third level directory: ' + 'response.url\n'
             self.lostitem_file.write(lostitem_str)
-            lostitem_str.close()
+            self.lostitem_file.close()
             raise CloseSpider(reason='被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
@@ -114,5 +114,5 @@ class RGSpider1(CrawlSpider):
         pass
 
     def close(self, reason):
-        lostitem_str.close()
+        self.lostitem_file.close()
         super(RGSpider1, self).close(self, reason)
