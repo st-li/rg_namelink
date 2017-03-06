@@ -9,6 +9,7 @@ from ResearchGateSpider.func import parse_text_by_multi_content
 from scrapy.exceptions import CloseSpider
 #from scrapy_splash import SplashRequest
 #from scrapy_splash import SplashMiddleware
+import hashlib
 import time
 
 
@@ -92,7 +93,7 @@ class RGSpider1(CrawlSpider):
         for person in person_selectors:
             item = ResearchGateItem()
             item['fullname'] = DataFilter.simple_format(person.xpath('.').extract())
-            person_url = self.domain + '/' DataFilter.simple_format(person.xpath('./a/@href').extract())
+            person_url = self.domain + '/' + DataFilter.simple_format(person.xpath('./a/@href').extract())
             item['link'] = person_url
             item['person_key'] = hashlib.sha256(person_url).hexdigest()
             yield item
