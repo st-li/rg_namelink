@@ -44,9 +44,15 @@ class RGSpider1(CrawlSpider):
 
     def parse_profile_directory(self, response):
         if response.status == 429:
-            lostitem_str = 'first level directory: ' + response.url + '\n'
-            self.lostitem_file.write(lostitem_str)
-            self.lostitem_file.close()
+            client = pymongo.MongoClient(
+                "118.190.45.60",
+                27017
+            )
+            db = client["'Research_Gate'"]
+            auth_result = db.authenticate(name='eol_spider', password='m~b4^Uurp)g', mechanism='SCRAM-SHA-1')
+            collection = db['lost_url']
+            collection.insert_one({'lost_usl':response.url, 'type':'first level'})
+            client.close()
             raise CloseSpider(reason=u'被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
@@ -64,9 +70,15 @@ class RGSpider1(CrawlSpider):
 
     def parse_profile_directory2(self, response):
         if response.status == 429:
-            lostitem_str = 'second level directory: ' + response.url + '\n'
-            self.lostitem_file.write(lostitem_str)
-            self.lostitem_file.close()
+            client = pymongo.MongoClient(
+                "118.190.45.60",
+                27017
+            )
+            db = client["'Research_Gate'"]
+            auth_result = db.authenticate(name='eol_spider', password='m~b4^Uurp)g', mechanism='SCRAM-SHA-1')
+            collection = db['lost_url']
+            collection.insert_one({'lost_usl':response.url, 'type':'second level'})
+            client.close()
             raise CloseSpider(reason='被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
@@ -83,9 +95,15 @@ class RGSpider1(CrawlSpider):
 
     def parse_profile_directory3(self, response):
         if response.status == 429:
-            lostitem_str = 'third level directory: ' + response.url + '\n'
-            self.lostitem_file.write(lostitem_str)
-            self.lostitem_file.close()
+            client = pymongo.MongoClient(
+                "118.190.45.60",
+                27017
+            )
+            db = client["'Research_Gate'"]
+            auth_result = db.authenticate(name='eol_spider', password='m~b4^Uurp)g', mechanism='SCRAM-SHA-1')
+            collection = db['lost_url']
+            collection.insert_one({'lost_usl':response.url, 'type':'third level'})
+            client.close()
             raise CloseSpider(reason='被封了，准备切换ip')
         headers = response.request.headers
         headers["referer"] = response.url
@@ -110,9 +128,7 @@ class RGSpider1(CrawlSpider):
 
     def __init__(self, **kwargs):
         super(RGSpider1, self).__init__(**kwargs)
-        self.lostitem_file = open('/data/1.out', 'a+')
         pass
 
     def close(self, reason):
-        self.lostitem_file.close()
         super(RGSpider1, self).close(self, reason)
